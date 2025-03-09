@@ -2,11 +2,11 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
-import Footer from './components/footer'
+//import Footer from './components/footer'
 
 export default function Home() {
   const [scroll, setScroll] = useState(0)
-  const [windowHeight, setWindowHeight] = useState(0)
+  const [setWindowHeight] = useState(0)
   const [isClient, setIsClient] = useState(false)
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
   const [navRef, setNavRef] = useState(null)

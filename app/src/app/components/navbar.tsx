@@ -9,7 +9,7 @@ export default function Navbar() {
   const [scroll, setScroll] = useState(0)
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
   const [navRef, setNavRef] = useState(null)
-  const [isClient, setIsClient] = useState(false)
+  const [_isClient, setIsClient] = useState(false)
 
   useEffect(() => {
     setIsClient(true)

@@ -24,7 +24,7 @@ export default function CookieConsent() {
       <div className="bg-white p-8 max-w-2xl mx-4 rounded-lg">
         <h2 className="font-poppins font-bold text-2xl mb-4">Cookie Consent</h2>
         <p className="font-poppins text-lg mb-6">
-          This website uses cookies to enhance your experience. By clicking <strong>"Accept"</strong> you agree to our use of cookies.
+          This website uses cookies to enhance your experience. By clicking <strong>'Accept'</strong> you agree to our use of cookies.
         </p>
         <div className="flex justify-end">
           <button

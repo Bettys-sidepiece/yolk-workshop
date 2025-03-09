@@ -71,7 +71,7 @@ const RecordSection = () => {
             </div>
           ) : (
             <div className="flex flex-wrap justify-between items-center gap-4 mb-8">
-              {recentUpdates.map((update, index) => (
+              {recentUpdates.map((update, _index) => (
                 <Link href={`/record/${update.id}`} key={update.id} className="block w-full sm:w-[30%]">
                   <div className="bg-[#ff9e9e] rounded-lg w-full aspect-square flex flex-col overflow-hidden transition-transform duration-300 hover:scale-105">
                     <div className="bg-black bg-opacity-25 p-3">
