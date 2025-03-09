@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="120mm"
+   height="120mm"
+   viewBox="0 0 120 120"
+   version="1.1"
+   id="svg5"
+   sodipodi:docname="yolkworkshop_icon.svg"
+   inkscape:export-filename="/home/bettysidepiece/Downloads/Icons/yolkworkshop_icon.png"
+   inkscape:export-xdpi="500"
+   inkscape:export-ydpi="500"
+   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview829"
+     pagecolor="#505050"
+     bordercolor="#eeeeee"
+     borderopacity="1"
+     inkscape:pageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="0"
+     inkscape:document-units="mm"
+     showgrid="false"
+     inkscape:zoom="1.8190104"
+     inkscape:cx="226.77165"
+     inkscape:cy="182.7917"
+     inkscape:window-width="1920"
+     inkscape:window-height="1043"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs2">
+    <filter
+       style="color-interpolation-filters:sRGB;"
+       inkscape:label="Roughen"
+       id="filter15571"
+       x="-0.0026682001"
+       y="-0.0026682001"
+       width="1.0053364"
+       height="1.0053364">
+      <feTurbulence
+         type="fractalNoise"
+         numOctaves="1"
+         seed="360"
+         baseFrequency="10 10"
+         result="turbulence"
+         id="feTurbulence15567" />
+      <feDisplacementMap
+         in="SourceGraphic"
+         in2="turbulence"
+         scale="1.3"
+         yChannelSelector="G"
+         xChannelSelector="R"
+         id="feDisplacementMap15569" />
+    </filter>
+  </defs>
+  <g
+     id="layer1"
+     transform="translate(-60,-60)">
+    <rect
+       style="fill:#ffffff;fill-opacity:1;stroke-width:0.247035"
+       id="rect846"
+       width="120"
+       height="120"
+       x="60"
+       y="60" />
+    <circle
+       style="fill:#fffe87;stroke:#dcd403;stroke-width:0.53364;stroke-opacity:0.41636503;fill-opacity:0.9451254;filter:url(#filter15571)"
+       id="path870"
+       cx="120.47932"
+       cy="120.96951"
+       r="50" />
+  </g>
+</svg>
