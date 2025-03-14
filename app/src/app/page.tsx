@@ -1,15 +1,24 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 'use client'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useEffect, useState } from 'react'
-//import Footer from './components/footer'
+ 
+import { useEffect, useState, useRef } from 'react'
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import _Footer from './components/footer'
 
 export default function Home() {
   const [scroll, setScroll] = useState(0)
-  const [setWindowHeight] = useState(0)
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [_windowHeight, setWindowHeight] = useState(0)
   const [isClient, setIsClient] = useState(false)
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
   const [navRef, setNavRef] = useState(null)
+   
+  const [logoLoaded, setLogoLoaded] = useState(false)
+  const initialLogoOpacity = 0 // Start with low opacity
+  const animationTimerRef = useRef(null)
+  
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
@@ -36,6 +45,9 @@ export default function Home() {
     return () => {
       window.removeEventListener('scroll', handleScroll)
       window.removeEventListener('resize', handleResize)
+      if (animationTimerRef.current) {
+        clearTimeout(animationTimerRef.current)
+      }
     }
   }, [])
 
@@ -60,10 +72,41 @@ export default function Home() {
       mousePosition.x <= (rect.right + proximity)
   }
 
-  const MIN_LOGO_SIZE = 200
+  const MIN_LOGO_SIZE = 150
+  const MAX_LOGO_SIZE = 285
+    
+  // Calculate scroll ratio for a smoother transition
+  const pageHeight = isClient ? window.innerHeight : 1000
+  const rawScrollRatio = Math.min(scroll / pageHeight, 1)
+    
+  // Apply easing function for smoother transition
+  const scrollRatio = 1 - Math.pow(1 - rawScrollRatio, 3)
+  
+  // Calculate logo size based on scroll position - full shrink after full page scroll
+  const logoSize = Math.max(MAX_LOGO_SIZE - (scrollRatio * (MAX_LOGO_SIZE - MIN_LOGO_SIZE)), MIN_LOGO_SIZE)
+  
+  // Calculate opacity to reach 100% when the logo reaches its final position
+  // This ties opacity directly to the shrinking progress
+  const shrinkProgress = (MAX_LOGO_SIZE - logoSize) / (MAX_LOGO_SIZE - MIN_LOGO_SIZE)
+  const calculatedLogoOpacity = Math.min(initialLogoOpacity + shrinkProgress, 1)
+  
+  // Position calculation - start at center and move upward based on scroll
+  // Calculate position based on scroll progress
+  const topPercentage = Math.max(50 - (scrollRatio * 50), 0) // Starts at 50%, goes toward 0%
+  
+  // Default position for server-side rendering
+  const initialPosition = {
+    top: '50%',
+    transform: 'translateY(-50%)'
+  }
 
-  const logoSize = Math.max(1000 - scroll * 2, MIN_LOGO_SIZE)
-  const logoOpacity = logoSize === MIN_LOGO_SIZE ? 1 : Math.max(1 - scroll / 500, 0.5)
+  // Position calculation with proper values
+  const position = isClient ? {
+    top: `${topPercentage}%`,
+    transform: topPercentage > 0 ? 'translateY(0%)' : 'translateY(0)',
+    transition: 'top 0.5s ease-out, transform 0.5s ease-out'
+  } : initialPosition
+    
   const navItems = [
     { name: 'ABOUT', href: '#about' },
     { name: 'DESIGNS', href: '/designs' },
@@ -71,45 +114,42 @@ export default function Home() {
     { name: 'RECORD', href: '/record' },
   ]
 
-  // Default position for server-side rendering
-  const initialPosition = {
-    top: '50%',
-    transform: 'translateY(-50%)'
-  }
-
-  // Calculate position only on client side
-  const position = isClient ? {
-    top: logoSize === MIN_LOGO_SIZE ? '0' : '40%',
-    transform: logoSize === MIN_LOGO_SIZE ? 'translateY(0)' : 'translateY(-50%)'
-  } : initialPosition
-
   return (
     <div className='flex flex-col min-h-screen'>
       <main>
         <section className="relative h-[100vh]">
-          {/* Background image */}
-          <div className="absolute inset-0">
-            <Image
-              src="/sunny_side_down_close_top.png"
-              alt="Background"
-              fill
-              className="object-cover"
-              priority
-            />
+          {/* Background image with keyboard */}
+          <div className="absolute inset-0 overflow-hidden">
+            <div className="relative w-full h-full">
+              <Image
+                src="/sunny_side_down3.png"
+                alt="Background"
+                fill
+                className="object-cover"
+                quality={100}
+                style={{ 
+                  transform: 'scale(1)', /* Adjust this value to control zoom level */
+                  transformOrigin: 'center center' /* Keep zoom centered */
+                }}
+                priority
+              />
+            </div>
           </div>
+          
           {/* Center container for logo and nav */}
           <div
             className="fixed w-full flex flex-col items-center pointer-events-none z-50 transition-all duration-400"
             style={position}
           >
-            {/* Logo container */}
+            {/* Logo container with fade-in animation */}
             <div
-              className="relative transition-all duration-400 cursor-pointer"
+              className="relative transition-all duration-700 cursor-pointer pointer-events-auto"
               style={{
                 width: `${logoSize}px`,
                 height: `${logoSize}px`,
-                opacity: logoOpacity,
-                marginTop: isClient && logoSize === MIN_LOGO_SIZE ? '-3rem' : '0vh'
+                opacity: logoLoaded ? calculatedLogoOpacity : 0,
+                marginTop: topPercentage === 0 ? '-3rem' : '0',
+                transition: 'opacity 0.7s ease, width 0.6s ease-out, height 0.6s ease-out, margin-top 0.6s ease-out'
               }}
               onClick={scrollToTop}
             >
@@ -119,17 +159,21 @@ export default function Home() {
                 fill
                 className="object-contain"
                 style={{ 
-                  borderRadius: '10px'}}
+                  borderRadius: '10px'
+                }}
                 priority
+                onLoad={() => setLogoLoaded(true)}
               />
             </div>
-            {/* Navigation */}
+            
+            {/* Navigation - only appears after full page scroll */}
             <nav
               ref={setNavRef}
-              className={`-mt-10 transition-all duration-300 pointer-events-auto ${scroll > 50 ? 'opacity-100' : 'opacity-0'
-                }`}
+              className={`transition-all duration-700 pointer-events-auto ${
+                shrinkProgress >= 0.5 ? 'opacity-100 -mt-6' : 'opacity-0 -mt-10'
+              }`}
             >
-              <ul className={`flex flex-row items-center space-x-20 transition-opacity duration-300 ${isMouseNear() ? 'opacity-100' : 'opacity-5'
+              <ul className={`flex flex-row items-center space-x-20 transition-opacity duration-500 ${isMouseNear() ? 'opacity-100' : 'opacity-5'
                 }`}>
                 {navItems.map((item) => (
                   <li key={item.name}>
@@ -146,7 +190,7 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Content sections with proper spacing and shadows */}
+        {/* Rest of the content remains the same */}
         <div className="container mx-auto px-4" style={{ maxWidth: '1800px' }}>
           {/* Yolk Keyboard Section */}
           <div className="mb-16 pt-16">
@@ -160,7 +204,7 @@ export default function Home() {
                   overflow: 'hidden'
                 }}>
                   <Image
-                    src="/Main-View-keyboard-edit.png"
+                    src="/sunny_side_down.png"
                     alt="Yolk Keyboard"
                     fill
                     className="object-cover"
@@ -197,8 +241,6 @@ export default function Home() {
           <div className="mb-32 pt-16">
             <section id="about" style={{ borderRadius: '10px', height: 'auto', minHeight: 'auto' }} className="relative bg- text-black overflow-hidden w-full">
               <div className="relative z-10 p-16">
-                {/* Large heading centered */}
-
                 {/* Text content centered with proper spacing */}
                 <div className="space-y-12 text-center mx-auto w-2/3">
                   <p className="text-2xl md:text-2xl lg:text-3xl font-poppins font-light leading-relaxed">
@@ -210,7 +252,7 @@ export default function Home() {
                   </p>
 
                   <p className="text-2xl md:text-2xl lg:text-3xl font-poppins font-light leading-relaxed">
-                    At Yolk Workshop, we believe in <strong>rethinking electronic design</strong>—crafting devices that feel <strong>intuitive, immersive, and inspired</strong> for all.
+                    At Yolk Workshop, we believe in <strong>rethinking electronic design</strong>, crafting devices that feel <strong>intuitive, immersive, and inspired</strong> for all.
                   </p>
                 </div>
               </div>
@@ -218,7 +260,7 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Recent Record Section */}
+              {/* Recent Record Section */}
         {/* Recent Record Section with Dynamic Updates */}
         <div className="container mx-auto px-4" style={{ maxWidth: '1800px' }}>
           <div className="mb-32 pt-16">
@@ -315,10 +357,10 @@ export default function Home() {
 
         {/* Kickstarter Section */}
         <div className="container mx-auto px-4 mb-32" style={{ maxWidth: '1800px' }}>
-          <div className="relative" style={{ borderRadius: '10px', overflow: 'hidden' }}>
+          <div className="relative" style={{ overflow: 'hidden' }}>
             {/* Background with gradient overlay */}
-            <div className="absolute inset-0 bg-gradient-to-r from-[#ff5722] to-[#ff9800]" style={{ borderRadius: '10px' }}>
-              <div className="absolute inset-0 bg-black bg-opacity-30" style={{ borderRadius: '10px' }}></div>
+            <div className="absolute inset-0 bg-black overflow-hidden">
+              <div className="absolute inset-0 bg-black bg-opacity-30"></div>
             </div>
 
             <div className="relative z-10 py-20 px-12 text-white text-center">

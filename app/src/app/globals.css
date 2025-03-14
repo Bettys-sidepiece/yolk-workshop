@@ -8,7 +8,7 @@
 :root {
   /* Light mode colors */
   --background: #FAF9F6;
-  --foreground-light: #bbe4fd; /* Light blue */
+  --foreground-light: #daedff; /* Light blue */
   --foreground-dark: #203063; /* Dark blue */
   --accent: #ffff00; /* Red accent */
   --yolk-yellow: #fffd72; /* Yellow accent */
@@ -19,7 +19,7 @@
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #FAF9F6;
-    --foreground-light: #bbe4fd;
+    --foreground-light: #b7c9da;
     --foreground-dark: #203063;
     --accent: #ffff00;
     --yolk-red: #fffd72;

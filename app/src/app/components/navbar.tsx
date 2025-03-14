@@ -9,6 +9,7 @@ export default function Navbar() {
   const [scroll, setScroll] = useState(0)
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
   const [navRef, setNavRef] = useState(null)
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [_isClient, setIsClient] = useState(false)
 
   useEffect(() => {
