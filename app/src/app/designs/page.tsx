@@ -36,7 +36,7 @@ export default function Designs() {
   const designs = useMemo(() => [
     {
       id: 'yolk-keyboard',
-      title: 'yolk keyboard',
+      title: 'Yolk Keyboard',
       shortDescription: 'Premium custom mechanical keyboard with advanced features',
       marketingDescription: 'The Yolk Keyboard redefines typing with innovative ergonomics and cutting-edge technology. Built around an STM32L07 MCU, this custom mechanical keyboard delivers professional-grade performance with striking aesthetics.',
       features: [
@@ -193,9 +193,8 @@ export default function Designs() {
               {/* Content overlay */}
               <div className="absolute inset-0 flex flex-col justify-between p-12 z-20">
                 {/* Top area with title */}
-                <div className="flex flex-col">
-                  <h2 className="text-5xl font-poppins font-light text-black/70">
-                    {design.title}
+                <div className="flex-col text-right ">
+                  <h2 className="text-7xl font-poppins font-light text-black/70">
                   </h2>
                 </div>
                 
@@ -217,14 +216,19 @@ export default function Designs() {
                     ))}
                   </div>
 
-                  {/* Explore button */}
-                  <Link
-                    href={`/designs/${design.id}`}
-                    className="bg-black hover:bg-[--accent] hover:text-black text-white font-poppins text-base py-2 px-6 rounded-full transition-all duration-300"
-                    aria-label={`Explore ${design.title} details`}
-                  >
-                    Explore
-                  </Link>
+                  {/* Design title and explore button */}
+                  <div className="flex flex-col items-end gap-2">
+                    <h3 className="text-6xl mb-5 font-poppins font-light text-black/70">
+                      {design.title}
+                    </h3>
+                    <Link
+                      href={`/designs/${design.id}`}
+                      className="bg-black hover:bg-[--accent] hover:text-black text-white font-poppins text-base py-4 px-10 rounded-full transition-all duration-300"
+                      aria-label={`Explore ${design.title} details`}
+                    >
+                      Explore
+                    </Link>
+                  </div>
                 </div>
               </div>
             </div>
@@ -254,7 +258,7 @@ export default function Designs() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
                   {/* Description column */}
                   <div>
-                    <h3 className="text-4xl font-poppins font-light mb-6">About</h3>
+                    <h3 className="text-5xl font-poppins font-light mb-6">About</h3>
                     <p className="text-xl font-poppins font-light leading-relaxed">
                       {design.marketingDescription}
                     </p>
@@ -262,7 +266,7 @@ export default function Designs() {
                   
                   {/* Features column */}
                   <div>
-                    <h3 className="text-4xl font-poppins font-light mb-6">Features</h3>
+                    <h3 className="text-5xl font-poppins font-light mb-6">Features</h3>
                     <ul className="space-y-4">
                       {design.features.map((feature, index) => (
                         <li key={index} className="flex items-start">

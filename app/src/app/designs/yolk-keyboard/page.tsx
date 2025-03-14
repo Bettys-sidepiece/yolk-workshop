@@ -10,14 +10,7 @@ import _Footer from '../../../components/footer';
 const customStyles = {
   __html: `
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400&display=swap');
-    
-    body {
-      font-family: 'Inter', sans-serif;
-      font-weight: 200;
-      background-color: #f7f7f7;
-      color: #000;
-      overflow-x: hidden;
-    }
+  
     
     .te-section {
       padding: 6rem 0;
@@ -332,17 +325,17 @@ export default function DesignPage() {
 
         <div className="te-text-overlay w-full text-center">
           <div className="te-container">
-            <h1 className="text-9xl te-title">Yolk Keyboard</h1>
-            <p className="text-5xl te-subtitle mt-6 text-center">mechanical precision. refined aesthetics.</p>
+            <h1 className="text-7xl te-title">Yolk Keyboard</h1>
+            <p className="text-4xl te-subtitle mt-6 text-center">mechanical precision. refined aesthetics.</p>
           </div>
         </div>
       </section>
 
       {/* Short Intro Section */}
-      <section className="te-section py-32 te-gradient-white">
+      <section className="te-section py-32">
         <div className="te-container">
           <div className="wide-text mx-auto text-center">
-            <p className="text-6xl intro-text leading-relaxed">
+            <p className="text-4xl intro-text font-extralight leading-relaxed ">
               The Yolk Keyboard redefines typing with innovative ergonomics and cutting-edge technology.
               Built around an STM32L07 MCU, this custom mechanical keyboard delivers professional-grade
               performance with striking aesthetics.
@@ -354,11 +347,11 @@ export default function DesignPage() {
       {/* Palettes Section */}
       <section className="te-section py-24 ">
         <div className="te-container">
-          <h2 className="text-8xl te-title mb-16 text-center">Palettes</h2>
+          <h2 className="text-6xl te-title mb-16 text-center">Palettes</h2>
 
           {/* Visual Selector */}
           <div className="flex justify-center mb-12">
-            <div className="bg-white/20 shadow-lg p-3 inline-flex rounded-full">
+            <div className="bg-white/20 shadow-lg p-3 inline-flex  rounded-full">
               <button
                 onClick={() => setActiveVariant('sunny')}
                 className={`px-8 py-4 rounded-full transition-all duration-500 text-xl ${activeVariant === 'sunny'
@@ -391,6 +384,7 @@ export default function DesignPage() {
               alt="Sunny Side Down Keyboard"
               fill
               className="object-cover object-center"
+              quality={100}
               priority
             />
           </div>
@@ -401,30 +395,24 @@ export default function DesignPage() {
               alt="Red Terror Keyboard"
               fill
               className="object-cover object-center"
+              quality={100}
               priority
             />
           </div>
-
-          {/* Color Indicator */}
-          <div className="absolute top-8 right-8 flex items-center gap-4 bg-black/60 text-white px-6 py-3 rounded-full">
-            <div className={`w-5 h-5 rounded-full ${activeVariant === 'sunny' ? 'bg-[#ffdd00]' : 'bg-[#ff3333]'}`}></div>
-            <span className="text-xl font-extralight">{activeVariant === 'sunny' ? 'Sunny Side Down' : 'Red Terror'}</span>
-          </div>
-
           {/* Variant Info Panel - Positioned within container */}
-          <div className="absolute bottom-0 left-0 right-0 py-12 px-8">
+        </div>
+      </section>
+      <section>
             <div className="te-container">
-              <h3 className="text-7xl te-title mb-6 text-black">
+              <h3 className="text-6xl te-title mb-10 text-black text-center">
                 {activeVariant === 'sunny' ? 'Sunny Side Down' : 'Red Terror'}
               </h3>
-              <p className="text-black/90 text-2xl font-extralight max-w-4xl leading-relaxed">
+              <p className="text-black/90 text-4xl mb-20 font-extralight leading-relaxed text-center">
                 {activeVariant === 'sunny'
                   ? 'Our signature vibrant yellow design with pristine white keycaps. A perfect balance of visual impact and ergonomic comfort for those who want their keyboard to make a statement. The sunny yellow aluminum frame contrasts beautifully with the clean white keycaps for a typing experience that\'s as enjoyable to look at as it is to use.'
                   : 'Bold black frame with striking red backplate for a powerful statement. Designed for the discerning keyboard enthusiast who demands both performance and aesthetics. The Red Terror variant combines aggressive styling with premium materials to create a keyboard that commands attention while delivering professional-grade performance.'}
               </p>
             </div>
-          </div>
-        </div>
       </section>
 
       {/* Top View Section - Image */}
@@ -444,7 +432,7 @@ export default function DesignPage() {
       <section className="py-28 bg-black/1">
         <div className="te-container">
           <div className="wide-text mx-auto text-center">
-            <p className="text-6xl font-extralight mb-20 leading-relaxed">
+            <p className="text-4xl font-extralight mb-5 leading-relaxed">
               The 65% compact layout preserves essential functionality while maintaining a minimal footprint.
               With hot-swappable switches, you can customize your typing experience without soldering.
             </p>
@@ -456,7 +444,7 @@ export default function DesignPage() {
       <section className="relative h-screen">
         <div className="absolute inset-0">
           <Image
-            src={activeVariant === 'sunny' ? "/sunny_side_down_close.png" : "/red_terror_close.png"}
+            src={activeVariant === 'sunny' ? "/sunny_side_down_close2.png" : "/red_terror_close.png"}
             alt={`${activeVariant === 'sunny' ? 'Sunny Side Down' : 'Red Terror'} - Front View`}
             fill
             className="object-cover"
@@ -469,11 +457,11 @@ export default function DesignPage() {
       <section className="py-28 te-gradient-grey">
         <div className="te-container">
           <div className="wide-text mx-auto">
-            <p className="text-6xl font-extralight mb-20 leading-relaxed text-center">
+            <p className="text-4xl font-extralight mb-20 leading-relaxed text-center">
               The front panel features a USB-C port for both charging and data transfer.
               Our custom firmware enables seamless device switching between wired and wireless connections.
             </p>
-            <ul className="space-y-10 text-4xl font-extralight text-center">
+            <ul className="space-y-10 text-3xl font-extralight text-center">
               <li className="items-start gap-4">
                 <span>USB Type-C connectivity with fast charging support</span>
               </li>
@@ -492,7 +480,7 @@ export default function DesignPage() {
       <section className="relative h-screen">
         <div className="absolute inset-0">
           <Image
-            src={activeVariant === 'sunny' ? "/sunny_side_down_touch_close.png" : "/red_terror_touch_close.png"}
+            src={activeVariant === 'sunny' ? "/sunny_side_down_touch_close2.png" : "/red_terror_touch_close.png"}
             alt={`${activeVariant === 'sunny' ? 'Sunny Side Down' : 'Red Terror'} - Side Detail`}
             fill
             className="object-cover"
@@ -505,11 +493,11 @@ export default function DesignPage() {
       <section className="py-28 ">
         <div className="te-container">
           <div className="wide-text mx-auto">
-            <p className="text-6xl font-extralight mb-20 leading-relaxed text-center">
+            <p className="text-4xl font-extralight mb-20 leading-relaxed text-center">
               The low-profile design comes in at just 25mm height, with an ergonomic 7° typing angle.
               The side features a touch-sensitive slider with haptic feedback for intuitive control.
             </p>
-            <ul className="space-y-10 text-4xl font-extralight text-center">
+            <ul className="space-y-10 text-3xl font-extralight text-center">
               <li className="items-start gap-4">
                 <span>Ultra-slim 25mm profile with ergonomic 7° angle</span>
               </li>
@@ -530,7 +518,7 @@ export default function DesignPage() {
       {/* Technical Drawing Section */}
       <section className="py-32 bg-[#ffdd00]">
         <div className="te-container">
-          <h2 className="text-8xl te-title mb-20 text-center">Technical Drawing</h2>
+          <h2 className="text-6xl te-title mb-20 text-center">Technical Drawing</h2>
 
           <div className="relative w-full aspect-[16/9] max-w-5xl mx-auto mb-20  p-10">
             <div className="relative w-full h-full">
@@ -621,12 +609,12 @@ export default function DesignPage() {
           />
         </div>
 
-        <div className="absolute inset-0 bg-black/40"></div>
+        <div className="absolute inset-0 bg-black/80"></div>
 
         <div className="relative z-10 h-full flex items-center justify-center">
           <div className="te-container text-center text-white">
             <h2 className="text-6xl te-title mb-8">Launching on kickstarter</h2>
-            <p className="text-3xl mb-16 font-extralight max-w-4xl mx-auto leading-relaxed">
+            <p className="text-3xl mb-16 font-light mx-auto leading-relaxed">
               Be among the first to back the revolutionary Yolk Keyboard on Kickstarter.
               Early backers will receive exclusive discounts and limited-edition designs not available after the campaign.
             </p>
@@ -645,7 +633,7 @@ export default function DesignPage() {
                   <button
                     type="submit"
                     disabled={status === 'loading'}
-                    className="px-10 py-4 text-xl bg-white text-black hover:bg-white/90 disabled:opacity-50 disabled:cursor-not-allowed rounded-none font-extralight"
+                    className="px-10 py-4 text-xl bg-white text-black hover:bg-white/90 disabled:opacity-50 disabled:cursor-not-allowed rounded-full font-extralight"
                   >
                     {status === 'loading' ? 'Processing...' : 'Get Notified'}
                   </button>
