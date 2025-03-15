@@ -2,6 +2,7 @@ import React from 'react'
 import type { Metadata } from "next"
 import CookieConsent from './components/cookiepopup'
 import Navbar from './components/navbar'
+import MobileNavbar from './components/mobilenav'
 import Footer from './components/footer'
 import "./globals.css"
 
@@ -17,11 +18,22 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+      </head>
       <body className="bg-white text-black">
         <CookieConsent />
-        <Navbar />
+        
+        {/* Desktop navbar - hidden on mobile */}
+        <div className="hidden md:block">
+          <Navbar />
+        </div>
+        
+        {/* Mobile navbar - shown only on mobile */}
+        <MobileNavbar />
+        
         {children}
-         <Footer />
+        <Footer />
       </body>
     </html>
   )

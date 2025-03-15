@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 'use client';
 
 import Image from 'next/image';
@@ -11,7 +12,6 @@ const customStyles = {
   __html: `
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400&display=swap');
   
-    
     .te-section {
       padding: 6rem 0;
       position: relative;
@@ -207,6 +207,93 @@ const customStyles = {
       line-height: 1.5;
       letter-spacing: -0.02em;
     }
+    
+    /* Mobile Responsive Styles */
+    @media (max-width: 768px) {
+      .te-container {
+        padding: 0 1.5rem !important;
+      }
+      
+      .te-text-overlay {
+        padding: 2rem 1.5rem;
+      }
+      
+      .te-title {
+        font-size: 2.5rem !important;
+      }
+      
+      .te-subtitle {
+        font-size: 1.5rem !important;
+      }
+      
+      .intro-text {
+        font-size: 1.25rem !important;
+        padding: 0 1rem;
+      }
+      
+      .wide-text {
+        width: 100% !important;
+        padding: 0 1rem;
+      }
+      
+      .mobile-stack {
+        flex-direction: column !important;
+        align-items: center !important;
+        gap: 1rem !important;
+      }
+      
+      .mobile-center {
+        text-align: center !important;
+      }
+      
+      .mobile-padding {
+        padding: 2rem 1rem !important;
+      }
+      
+      .mobile-text-sm {
+        font-size: 0.875rem !important;
+      }
+      
+      .mobile-text-base {
+        font-size: 1rem !important;
+      }
+      
+      .mobile-text-lg {
+        font-size: 1.125rem !important;
+      }
+      
+      .mobile-text-xl {
+        font-size: 1.25rem !important;
+      }
+      
+      .mobile-text-2xl {
+        font-size: 1.5rem !important;
+      }
+      
+      .mobile-text-3xl {
+        font-size: 1.875rem !important;
+      }
+      
+      .mobile-section-padding {
+        padding-top: 3rem !important;
+        padding-bottom: 3rem !important;
+      }
+      
+      .mobile-height-adjust {
+        height: 70vh !important;
+        min-height: 500px !important;
+      }
+      
+      .mobile-form-stack {
+        flex-direction: column !important;
+      }
+      
+      .mobile-form-stack input, 
+      .mobile-form-stack button {
+        width: 100% !important;
+        margin-bottom: 1rem !important;
+      }
+    }
   `
 };
 
@@ -214,6 +301,7 @@ export default function DesignPage() {
   const [registrationEmail, setRegistrationEmail] = useState('');
   const [status, setStatus] = useState('idle');
   const [activeVariant, setActiveVariant] = useState('sunny'); // 'sunny' or 'terror'
+  const [isMobile, setIsMobile] = useState(false);
 
   // Image slider states
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -232,6 +320,20 @@ export default function DesignPage() {
     '/red_terror7.png',
     '/red_terror4.png'
   ];
+
+  // Detect mobile view
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
+    return () => {
+      window.removeEventListener('resize', checkMobile);
+    };
+  }, []);
 
   // Get current image array based on active variant
   const currentImages = activeVariant === 'sunny' ? sunnyImages : terrorImages;
@@ -312,7 +414,7 @@ export default function DesignPage() {
       <style dangerouslySetInnerHTML={customStyles} />
 
       {/* Hero Section */}
-      <section className="te-hero overflow-hidden">
+      <section className="te-hero overflow-hidden mobile-height-adjust">
         <div className="absolute inset-0">
           <Image
             src={activeVariant === 'sunny' ? "/sunny_side_down1.png" : "/red_terror1.png"}
@@ -325,17 +427,17 @@ export default function DesignPage() {
 
         <div className="te-text-overlay w-full text-center">
           <div className="te-container">
-            <h1 className="text-7xl te-title">Yolk Keyboard</h1>
-            <p className="text-4xl te-subtitle mt-6 text-center">mechanical precision. refined aesthetics.</p>
+            <h1 className={`text-7xl te-title ${isMobile ? 'text-4xl' : ''}`}>Yolk Keyboard</h1>
+            <p className={`text-4xl te-subtitle mt-6 text-center ${isMobile ? 'text-xl' : ''}`}>mechanical precision. refined aesthetics.</p>
           </div>
         </div>
       </section>
 
       {/* Short Intro Section */}
-      <section className="te-section py-32">
+      <section className={`te-section py-32 ${isMobile ? 'py-16' : ''}`}>
         <div className="te-container">
           <div className="wide-text mx-auto text-center">
-            <p className="text-4xl intro-text font-extralight leading-relaxed ">
+            <p className={`text-4xl intro-text font-extralight leading-relaxed ${isMobile ? 'text-xl px-2' : ''}`}>
               The Yolk Keyboard redefines typing with innovative ergonomics and cutting-edge technology.
               Built around an STM32L07 MCU, this custom mechanical keyboard delivers professional-grade
               performance with striking aesthetics.
@@ -345,19 +447,19 @@ export default function DesignPage() {
       </section>
 
       {/* Palettes Section */}
-      <section className="te-section py-24 ">
+      <section className={`te-section py-24 ${isMobile ? 'py-12' : ''}`}>
         <div className="te-container">
-          <h2 className="text-6xl te-title mb-16 text-center">Palettes</h2>
+          <h2 className={`text-6xl te-title mb-16 text-center ${isMobile ? 'text-3xl mb-8' : ''}`}>Palettes</h2>
 
           {/* Visual Selector */}
           <div className="flex justify-center mb-12">
-            <div className="bg-white/20 shadow-lg p-3 inline-flex  rounded-full">
+            <div className={`bg-white/20 shadow-lg p-3 inline-flex rounded-full ${isMobile ? 'flex-col' : ''}`}>
               <button
                 onClick={() => setActiveVariant('sunny')}
                 className={`px-8 py-4 rounded-full transition-all duration-500 text-xl ${activeVariant === 'sunny'
                     ? 'bg-[#ffdd00] text-black font-light shadow-md'
                     : 'bg-transparent text-gray-700 hover:bg-gray-100'
-                  }`}
+                  } ${isMobile ? 'text-base mb-2 px-4 py-3' : ''}`}
               >
                 Sunny Side Down
               </button>
@@ -366,7 +468,7 @@ export default function DesignPage() {
                 className={`px-8 py-4 rounded-full transition-all duration-500 text-xl ${activeVariant === 'terror'
                     ? 'bg-[#ff3333] text-white font-light shadow-md'
                     : 'bg-transparent text-gray-700 hover:bg-gray-100'
-                  }`}
+                  } ${isMobile ? 'text-base px-4 py-3' : ''}`}
               >
                 Red Terror
               </button>
@@ -375,7 +477,7 @@ export default function DesignPage() {
         </div>
 
         {/* Full Width Image Container */}
-        <div className="relative w-full h-[90vh] min-h-[800px] mt-8">
+        <div className={`relative w-full mt-8 ${isMobile ? 'h-[60vh]' : 'h-[90vh] min-h-[800px]'}`}>
           {/* Current Variant Image */}
           <div className="absolute inset-0 transition-opacity duration-1000 ease-in-out"
             style={{ opacity: activeVariant === 'sunny' ? 1 : 0 }}>
@@ -399,24 +501,24 @@ export default function DesignPage() {
               priority
             />
           </div>
-          {/* Variant Info Panel - Positioned within container */}
         </div>
       </section>
+
       <section>
-            <div className="te-container">
-              <h3 className="text-6xl te-title mb-10 text-black text-center">
-                {activeVariant === 'sunny' ? 'Sunny Side Down' : 'Red Terror'}
-              </h3>
-              <p className="text-black/90 text-4xl mb-20 font-extralight leading-relaxed text-center">
-                {activeVariant === 'sunny'
-                  ? 'Our signature vibrant yellow design with pristine white keycaps. A perfect balance of visual impact and ergonomic comfort for those who want their keyboard to make a statement. The sunny yellow aluminum frame contrasts beautifully with the clean white keycaps for a typing experience that\'s as enjoyable to look at as it is to use.'
-                  : 'Bold black frame with striking red backplate for a powerful statement. Designed for the discerning keyboard enthusiast who demands both performance and aesthetics. The Red Terror variant combines aggressive styling with premium materials to create a keyboard that commands attention while delivering professional-grade performance.'}
-              </p>
-            </div>
+        <div className="te-container">
+          <h3 className={`text-6xl te-title mb-10 text-black text-center ${isMobile ? 'text-3xl mb-6' : ''}`}>
+            {activeVariant === 'sunny' ? 'Sunny Side Down' : 'Red Terror'}
+          </h3>
+          <p className={`text-black/90 text-4xl mb-20 font-extralight leading-relaxed text-center ${isMobile ? 'text-xl mb-10 px-2' : ''}`}>
+            {activeVariant === 'sunny'
+              ? 'Our signature vibrant yellow design with pristine white keycaps. A perfect balance of visual impact and ergonomic comfort for those who want their keyboard to make a statement. The sunny yellow matte finished backplate contrasts beautifully with the clean white keycaps for a typing experience that\'s as enjoyable to look at as it is to use.'
+              : 'Bold black frame with striking red backplate for a powerful statement. Designed for the discerning keyboard enthusiast who demands both performance and aesthetics. The Red Terror variant combines aggressive styling with premium materials to create a keyboard that commands attention while delivering professional-grade performance.'}
+          </p>
+        </div>
       </section>
 
       {/* Top View Section - Image */}
-      <section className="relative h-screen">
+      <section className={`relative ${isMobile ? 'h-[60vh]' : 'h-screen'}`}>
         <div className="absolute inset-0">
           <Image
             src={activeVariant === 'sunny' ? "/sunny_side_down1.png" : "/red_terror1.png"}
@@ -429,10 +531,10 @@ export default function DesignPage() {
       </section>
 
       {/* Top View Section - Info */}
-      <section className="py-28 bg-black/1">
+      <section className={`py-28 bg-black/1 ${isMobile ? 'py-16' : ''}`}>
         <div className="te-container">
           <div className="wide-text mx-auto text-center">
-            <p className="text-4xl font-extralight mb-5 leading-relaxed">
+            <p className={`text-4xl font-extralight mb-5 leading-relaxed ${isMobile ? 'text-xl px-2' : ''}`}>
               The 65% compact layout preserves essential functionality while maintaining a minimal footprint.
               With hot-swappable switches, you can customize your typing experience without soldering.
             </p>
@@ -441,7 +543,7 @@ export default function DesignPage() {
       </section>
 
       {/* Front View Section - Image */}
-      <section className="relative h-screen">
+      <section className={`relative ${isMobile ? 'h-[60vh]' : 'h-screen'}`}>
         <div className="absolute inset-0">
           <Image
             src={activeVariant === 'sunny' ? "/sunny_side_down_close2.png" : "/red_terror_close.png"}
@@ -454,14 +556,14 @@ export default function DesignPage() {
       </section>
 
       {/* Front View Section - Info */}
-      <section className="py-28 te-gradient-grey">
+      <section className={`py-28 te-gradient-grey ${isMobile ? 'py-16' : ''}`}>
         <div className="te-container">
           <div className="wide-text mx-auto">
-            <p className="text-4xl font-extralight mb-20 leading-relaxed text-center">
+            <p className={`text-4xl font-extralight mb-20 leading-relaxed text-center ${isMobile ? 'text-xl mb-5 px-2' : ''}`}>
               The front panel features a USB-C port for both charging and data transfer.
               Our custom firmware enables seamless device switching between wired and wireless connections.
             </p>
-            <ul className="space-y-10 text-3xl font-extralight text-center">
+            <ul className={`space-y-10 text-3xl font-extralight text-center ${isMobile ? 'space-y-2 text-sm px-2' : ''}`}>
               <li className="items-start gap-4">
                 <span>USB Type-C connectivity with fast charging support</span>
               </li>
@@ -477,7 +579,7 @@ export default function DesignPage() {
       </section>
 
       {/* Side View Section - Image */}
-      <section className="relative h-screen">
+      <section className={`relative ${isMobile ? 'h-[60vh]' : 'h-screen'}`}>
         <div className="absolute inset-0">
           <Image
             src={activeVariant === 'sunny' ? "/sunny_side_down_touch_close2.png" : "/red_terror_touch_close.png"}
@@ -490,18 +592,18 @@ export default function DesignPage() {
       </section>
 
       {/* Side View Section - Info */}
-      <section className="py-28 ">
+      <section className={`py-28 ${isMobile ? 'py-16' : ''}`}>
         <div className="te-container">
           <div className="wide-text mx-auto">
-            <p className="text-4xl font-extralight mb-20 leading-relaxed text-center">
+            <p className={`text-4xl font-extralight mb-20 leading-relaxed text-center ${isMobile ? 'text-8xl mb-5 px-2' : ''}`}>
               The low-profile design comes in at just 25mm height, with an ergonomic 7° typing angle.
               The side features a touch-sensitive slider with haptic feedback for intuitive control.
             </p>
-            <ul className="space-y-10 text-3xl font-extralight text-center">
+            <ul className={`space-y-10 text-3xl font-extralight text-center ${isMobile ? 'space-y-2 text-sm px-2' : ''}`}>
               <li className="items-start gap-4">
                 <span>Ultra-slim 25mm profile with ergonomic 7° angle</span>
               </li>
-              <li className=" items-start gap-4">
+              <li className="items-start gap-4">
                 <span>Touch slider with haptic feedback for intuitive control</span>
               </li>
               <li className="items-start gap-4">
@@ -516,27 +618,27 @@ export default function DesignPage() {
       </section>
 
       {/* Technical Drawing Section */}
-      <section className="py-32 bg-[#ffdd00]">
+      <section className={`py-32 bg-[#ffdd00] ${isMobile ? 'py-16' : ''}`}>
         <div className="te-container">
-          <h2 className="text-6xl te-title mb-20 text-center">Technical Drawing</h2>
+          <h2 className={`text-6xl te-title mb-20 text-center ${isMobile ? 'text-3xl mb-10' : ''}`}>Technical Drawing</h2>
 
-          <div className="relative w-full aspect-[16/9] max-w-5xl mx-auto mb-20  p-10">
+          <div className={`relative w-full aspect-[16/9] max-w-5xl mx-auto mb-20 p-10 ${isMobile ? 'p-4 mb-10' : ''}`}>
             <div className="relative w-full h-full">
               <Image
                 src="/technical_drawing.png"
-                alt=""
+                alt=" "
                 fill
                 className="object-contain"
               />
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-16 wide-text mx-auto">
+          <div className={`grid grid-cols-1 md:grid-cols-2 gap-16 wide-text mx-auto ${isMobile ? 'gap-10' : ''}`}>
             <div>
-              <h3 className="text-5xl font-light mb-8">Features</h3>
-              <ul className="space-y-5 text-2xl font-extralight">
+              <h3 className={`text-5xl font-light mb-8 ${isMobile ? 'text-3xl mb-6 text-center' : ''}`}>Features</h3>
+              <ul className={`space-y-5 text-2xl font-extralight ${isMobile ? 'space-y-1 text-sm text-base px-2 text-center' : ''}`}>
                 <li className="flex items-start gap-4">
-                  <span>Ultra-responsive 1ms polling rate</span>
+                  <span>Ultra-responsive 1ms polling rate (USB) and 7.2ms polling rate (BLE)</span>
                 </li>
                 <li className="flex items-start gap-4">
                   <span>Full NKRO (N-Key Rollover)</span>
@@ -562,14 +664,14 @@ export default function DesignPage() {
               </ul>
             </div>
 
-            <div>
-              <h3 className="text-5xl font-light mb-8">Specifications</h3>
-              <ul className="space-y-5 text-2xl font-extralight">
+            <div className={isMobile ? 'mt-6' : ''}>
+              <h3 className={`text-5xl font-light mb-8 ${isMobile ? 'text-3xl mb-6 text-center' : ''}`}>Specifications</h3>
+              <ul className={`space-y-5 text-2xl font-extralight ${isMobile ? 'space-y-1 text-sm text-base px-2 text-center' : ''}`}>
                 <li className="flex items-start gap-4">
                   <span>Dimensions: 320 × 120 × 25mm</span>
                 </li>
                 <li className="flex items-start gap-4">
-                  <span>Weight: 900g</span>
+                  <span>Weight: TBD</span>
                 </li>
                 <li className="flex items-start gap-4">
                   <span>Layout: 65% compact with arrow keys</span>
@@ -583,13 +685,13 @@ export default function DesignPage() {
                 <li className="flex items-start gap-4">
                   <span>Battery Life: 100+ hours with backlighting</span>
                 </li>
-                <li className="flex items-start gap-4">
+                <li className="flex items-start gap-4 ">
                   <span>Connectivity: USB-C, Bluetooth 5.1 LE (4 devices)</span>
                 </li>
                 <li className="flex items-start gap-4">
-                  <span>Frame: 6063 aluminum with anodized finish</span>
+                  <span>Frame: Premium soft-touch plastic with a sleek, matte finish for a refined feel.</span>
                 </li>
-                <li className="flex items-start gap-4">
+                <li className="flex items-start gap-4 mobile-text-1xl">
                   <span>Keycaps: PBT double-shot with shine-through legends</span>
                 </li>
               </ul>
@@ -599,7 +701,7 @@ export default function DesignPage() {
       </section>
 
       {/* Kickstarter Section with background image */}
-      <section className="relative h-[80vh] min-h-[700px]">
+      <section className={`relative h-[80vh] min-h-[700px] ${isMobile ? 'min-h-[500px]' : ''}`}>
         <div className="absolute inset-0">
           <Image
             src={activeVariant === 'sunny' ? "/sunny_side_down1.png" : "/red_terror1.png"}
@@ -613,47 +715,47 @@ export default function DesignPage() {
 
         <div className="relative z-10 h-full flex items-center justify-center">
           <div className="te-container text-center text-white">
-            <h2 className="text-6xl te-title mb-8">Launching on kickstarter</h2>
-            <p className="text-3xl mb-16 font-light mx-auto leading-relaxed">
+            <h2 className={`text-6xl te-title mb-8 ${isMobile ? 'text-3xl mb-4' : ''}`}>Launching on kickstarter</h2>
+            <p className={`text-3xl mb-16 font-light mx-auto leading-relaxed ${isMobile ? 'text-xl mb-8 px-2' : ''}`}>
               Be among the first to back the revolutionary Yolk Keyboard on Kickstarter.
               Early backers will receive exclusive discounts and limited-edition designs not available after the campaign.
             </p>
 
             <div className="max-w-2xl mx-auto">
               <form onSubmit={handleRegistration} className="space-y-6">
-                <div className="flex gap-6">
+                <div className={`flex gap-6 ${isMobile ? 'flex-col gap-3' : ''}`}>
                   <input
                     type="email"
                     placeholder="your@email.com"
                     value={registrationEmail}
                     onChange={(e) => setRegistrationEmail(e.target.value)}
-                    className="flex-1 p-4 text-xl border border-white/20 bg-black/50 text-white placeholder:text-white/50 rounded-none"
+                    className={`flex-1 p-4 text-xl border border-white/20 bg-black/50 text-white placeholder:text-white/50 ${isMobile ? 'text-base p-3' : ''}`}
                     required
                   />
                   <button
                     type="submit"
                     disabled={status === 'loading'}
-                    className="px-10 py-4 text-xl bg-white text-black hover:bg-white/90 disabled:opacity-50 disabled:cursor-not-allowed rounded-full font-extralight"
+                    className={`px-10 py-4 text-xl bg-white text-black hover:bg-white/90 disabled:opacity-50 disabled:cursor-not-allowed rounded-full font-extralight ${isMobile ? 'px-6 py-3 text-base' : ''}`}
                   >
                     {status === 'loading' ? 'Processing...' : 'Get Notified'}
                   </button>
                 </div>
 
                 {status === 'success' && (
-                  <div className="mt-6 p-4 bg-white/10 text-white text-xl font-extralight text-center">
+                  <div className={`mt-6 p-4 bg-white/10 text-white text-xl font-extralight text-center ${isMobile ? 'text-base p-3' : ''}`}>
                     Thank you. We'll notify you when our Kickstarter campaign launches.
                   </div>
                 )}
 
                 {status === 'error' && (
-                  <div className="mt-6 p-4 bg-red-500/30 text-white text-xl font-extralight text-center">
+                  <div className={`mt-6 p-4 bg-red-500/30 text-white text-xl font-extralight text-center ${isMobile ? 'text-base p-3' : ''}`}>
                     An error occurred. Please try again.
                   </div>
                 )}
               </form>
             </div>
 
-            <p className="text-white/70 mt-12 text-2xl font-extralight">Kickstarter launch: April 2025</p>
+            <p className={`text-white/70 mt-12 text-2xl font-extralight ${isMobile ? 'mt-8 text-lg' : ''}`}>Kickstarter launch: April 2025</p>
           </div>
         </div>
       </section>
